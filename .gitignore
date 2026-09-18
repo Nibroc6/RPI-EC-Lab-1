@@ -1,0 +1,8 @@
+.ccsproject
+.clangd
+.cproject
+.project
+.settings/org.eclipse.cdt.codan.core.prefs
+/inc
+/src
+/targetConfigs
