@@ -45,9 +45,9 @@ void GPIOInit(){
     GPIO_initDigitalOutput(GPIOA, GPIO_PIN13); //init biLED B
     
     // ==== onboard ====
-    GPIO_initDigitalInput(GPIOA, GPIO_PIN7); // init bumper 1
+    GPIO_initDigitalInput(GPIOA, GPIO_PIN7 ); // init bumper 1
     GPIO_initDigitalInput(GPIOA, GPIO_PIN14); // init bumper 2
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN5); // init bumper 3
+    GPIO_initDigitalInput(GPIOB, GPIO_PIN5 ); // init bumper 3
     GPIO_initDigitalInput(GPIOB, GPIO_PIN21); // init bumper 4
     GPIO_initDigitalInput(GPIOB, GPIO_PIN23); // init bumper 5
     GPIO_initDigitalInput(GPIOB, GPIO_PIN25); // init bumper 6
@@ -71,12 +71,23 @@ void GPIOInit(){
 
 void testIO(){
     // Add printf statement(s) for testing inputs
-    uint8_t inputreturn[] = "\nGot  \n";
-    GPIO_setPins(GPIOB, GPIO_PIN15);
-
+    uint8_t inputreturn[] = "\nGot  \nInput P1: ,P2: ,S: ,B1: ,B2: ,B3: ,B4: ,B5: ,B6: \n";
+    
     // Example code for testing outputs
     while(1){
         uint8_t cmd = getchar();
+
+        inputreturn[16] = GPIO_readPins(GPIOB,GPIO_PIN2) != 0 ? 't' : 'f';
+        inputreturn[21] = GPIO_readPins(GPIOB,GPIO_PIN3) != 0 ? 't' : 'f';
+        inputreturn[25] = GPIO_readPins(GPIOA,GPIO_PIN9) != 0 ? 't' : 'f';
+        
+        inputreturn[30] = GPIO_readPins(GPIOA, GPIO_PIN7 ) != 1 ? 't' : 'f';
+        inputreturn[35] = GPIO_readPins(GPIOA, GPIO_PIN14) != 1 ? 't' : 'f';
+        inputreturn[40] = GPIO_readPins(GPIOB, GPIO_PIN5 ) != 1 ? 't' : 'f';
+        inputreturn[45] = GPIO_readPins(GPIOB, GPIO_PIN21) != 1 ? 't' : 'f';
+        inputreturn[50] = GPIO_readPins(GPIOB, GPIO_PIN23) != 1 ? 't' : 'f';
+        inputreturn[55] = GPIO_readPins(GPIOB, GPIO_PIN25) != 1 ? 't' : 'f';
+
         inputreturn[5] = cmd;
         printf(inputreturn);
         switch (cmd) {
@@ -108,31 +119,6 @@ void testIO(){
                 break;
             case 'w':
                 GPIO_setPins(GPIOA, GPIO_PIN12 | GPIO_PIN13);
-                break;
-                
-            case 'L':
-                GPIO_setPins(GPIOB, GPIO_PIN15);
-                break;
-            case 'l':
-                GPIO_clearPins(GPIOB, GPIO_PIN15);
-                break;
-            case 'K':
-                GPIO_setPins(GPIOB, GPIO_PIN8);
-                break;
-            case 'k':
-                GPIO_clearPins(GPIOB, GPIO_PIN8);
-                break;
-            case 'O':
-                GPIO_setPins(GPIOB, GPIO_PIN16);
-                break;
-            case 'o':
-                GPIO_clearPins(GPIOB, GPIO_PIN16);
-                break;
-            case 'I':
-                GPIO_setPins(GPIOB, GPIO_PIN0);
-                break;
-            case 'i':
-                GPIO_clearPins(GPIOB, GPIO_PIN0);
                 break;
         }
     }
