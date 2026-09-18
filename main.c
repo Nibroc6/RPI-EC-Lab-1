@@ -58,23 +58,27 @@ void GPIOInit(){
     GPIO_setInternalResistor(GPIOB, GPIO_PIN23, GPIO_PULL_UP); // init bumper 5 pur
     GPIO_setInternalResistor(GPIOB, GPIO_PIN25, GPIO_PULL_UP); // init bumper 6 pur
     
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN22); // init rgb 1
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN26); // init rgb 2
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN27); // init rgb 3
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN22); // init rgb 1
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN26); // init rgb 2
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN27); // init rgb 3
     
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN15); // init left motor on/off
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN8); // init left motor direction
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN15); // init left motor on/off
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN8); // init left motor direction
     
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN16); // init right motor on/off
-    GPIO_initDigitalInput(GPIOB, GPIO_PIN0); // init right motor direction
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN16); // init right motor on/off
+    GPIO_initDigitalOutput(GPIOB, GPIO_PIN0); // init right motor direction
 }
 
 void testIO(){
     // Add printf statement(s) for testing inputs
+    uint8_t inputreturn[] = "\nGot  \n";
+    GPIO_setPins(GPIOB, GPIO_PIN15);
 
     // Example code for testing outputs
     while(1){
         uint8_t cmd = getchar();
+        inputreturn[5] = cmd;
+        printf(inputreturn);
         switch (cmd) {
             case 'R':
                 GPIO_setPins(GPIOB, GPIO_PIN26);
@@ -95,20 +99,44 @@ void testIO(){
                 GPIO_clearPins(GPIOB, GPIO_PIN22);
                 break;
             case 'q':
-                GPIO_clearPins(GPIOB, GPIO_PIN12);
-                GPIO_setPins(GPIOB, GPIO_PIN13);
+                GPIO_clearPins(GPIOA, GPIO_PIN12);
+                GPIO_setPins(GPIOA, GPIO_PIN13);
                 break;
             case 'e':
-                GPIO_clearPins(GPIOB, GPIO_PIN13);
-                GPIO_setPins(GPIOB, GPIO_PIN12);
+                GPIO_clearPins(GPIOA, GPIO_PIN13);
+                GPIO_setPins(GPIOA, GPIO_PIN12);
                 break;
             case 'w':
-                GPIO_setPins(GPIOB, GPIO_PIN12 | GPIO_PIN13);
+                GPIO_setPins(GPIOA, GPIO_PIN12 | GPIO_PIN13);
+                break;
+                
+            case 'L':
+                GPIO_setPins(GPIOB, GPIO_PIN15);
+                break;
+            case 'l':
+                GPIO_clearPins(GPIOB, GPIO_PIN15);
+                break;
+            case 'K':
+                GPIO_setPins(GPIOB, GPIO_PIN8);
+                break;
+            case 'k':
+                GPIO_clearPins(GPIOB, GPIO_PIN8);
+                break;
+            case 'O':
+                GPIO_setPins(GPIOB, GPIO_PIN16);
+                break;
+            case 'o':
+                GPIO_clearPins(GPIOB, GPIO_PIN16);
+                break;
+            case 'I':
+                GPIO_setPins(GPIOB, GPIO_PIN0);
+                break;
+            case 'i':
+                GPIO_clearPins(GPIOB, GPIO_PIN0);
                 break;
         }
     }
 }
 
 void controlSystem(){
-
 }
